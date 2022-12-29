@@ -1,0 +1,28 @@
+apiVersion: hypershift.openshift.io/v1beta1
+kind: NodePool
+metadata:
+  creationTimestamp: null
+  name: hugepages-nodepool
+  namespace: clusters
+spec:
+  clusterName: psap-qe-hcluster01
+  management:
+    autoRepair: false
+    upgradeType: InPlace
+  platform:
+    aws:
+      instanceProfile: psap-qe-hcluster01-bzg8h-worker
+      instanceType: m5.2xlarge
+      rootVolume:
+        size: 120
+        type: gp3
+      securityGroups:
+      - id: sg-09408fc7d1cd679bf
+      subnet:
+        id: subnet-057705e39bde6250e
+    type: AWS
+  release:
+    image: quay.io/openshift-release-dev/ocp-release:4.12.0-rc.6-x86_64
+  replicas: 1
+status:
+  replicas: 0
