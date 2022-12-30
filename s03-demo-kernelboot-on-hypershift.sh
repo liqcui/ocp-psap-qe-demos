@@ -12,7 +12,7 @@ print_stdout_withcolor red "`formatStdOutString 'The NTO on Hypershift Demo Stat
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 echo
-sleep 6
+sleep 8
 
 clear
 echo
@@ -24,7 +24,7 @@ echo
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 print_stdout_withcolor red "`formatStdOutString ' NTO Applying tuning which requires kernel boot parameters' 86`" bold
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
-sleep 6
+sleep 8
 clear
 echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
@@ -36,7 +36,7 @@ print_stdout_withcolor red "`formatStdOutString 'Execute The Following Command i
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 echo
-sleep 6
+sleep 8
 clear 
 echo
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
@@ -83,20 +83,29 @@ NODEPOOL_READY_STATUS=false
 while true
 do
     NODEPOOL_READY_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'| tr [T,F] [t,f]`
-    show_prompt_text red "NODEPOOL_READY_STATUS is $NODEPOOL_READY_STATUS"
+    echo  "The reday status of nodepool is $NODEPOOL_READY_STATUS"
     if [[ $NODEPOOL_READY_STATUS == "true" ]];then
        show_prompt_text green "The custom nodepool hugepages-nodepool is ready"
        break
     fi
     sleep 5
 done
+echo 
+print_stdout_withcolor yellow "`formatStdOutBeginEndString 'END' 86`"
+print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
 sleep 5
+
+
+
 clear
 echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 figlet -t -f slant management cluster
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 echo
+print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
+print_stdout_withcolor yellow "`formatStdOutBeginEndString 'BEGIN' 86`"
+echo 
 print_stdout_withcolor yellow `repeatedCharNTimes "#" 86`
 print_stdout_withcolor yellow "`formatStdOutString 'Create configmap for NTO in clusters namespace' 86`"
 print_stdout_withcolor yellow `repeatedCharNTimes "#" 86`
@@ -155,30 +164,65 @@ do
     sleep 10
     NODEPOOL_READY_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'| tr [T,F] [t,f]`
     NODEPOOL_UPDATE_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="UpdatingConfig")].status}'| tr [T,F] [t,f]`
-    show_prompt_text red "NODEPOOL_READY_STATUS is $NODEPOOL_READY_STATUS and NODEPOOL_UPDATE_STATUS is '$NODEPOOL_UPDATE_STATUS'"
+    echo "The reday status of nodepool is $NODEPOOL_READY_STATUS and the update status of nodepool is '$NODEPOOL_UPDATE_STATUS'"
     if [[ $NODEPOOL_UPDATE_STATUS != "true" && $NODEPOOL_READY_STATUS == "true" ]];then
        show_prompt_text green "The custom nodepool hugepages-nodepool is ready"
        break
     fi
 done
+echo 
+print_stdout_withcolor yellow "`formatStdOutBeginEndString 'END' 86`"
+print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
+sleep 5
+
 
 clear
 echo 
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
-figlet -t -f slant Test Verify
+figlet -t -f slant Test Verification
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
-print_stdout_withcolor yellow `repeatedCharNTimes "#" 86`
-print_stdout_withcolor yellow "`formatStdOutString 'check if the configmap created and generated' 86`"
-print_stdout_withcolor yellow "`formatStdOutString 'in both clusters and clusters-psap-qe-hcluster01' 86`"
-print_stdout_withcolor yellow `repeatedCharNTimes "#" 86`
+echo
+
+print_stdout_withcolor red `repeatedCharNTimes "#" 86`
+print_stdout_withcolor red "`formatStdOutString 'Verify NTO Cconfigumap and hugepagesz settings in /etc/cmdcline' 86`" bold
+print_stdout_withcolor red `repeatedCharNTimes "#" 86`
+echo
+sleep 6
+
+clear 
+echo
+print_stdout_withcolor red `repeatedCharNTimes "-" 86`
+figlet -t -f slant highlight
+print_stdout_withcolor red `repeatedCharNTimes "-" 86`
+echo
+print_stdout_withcolor red `repeatedCharNTimes "#" 86`
+print_stdout_withcolor red "`formatStdOutString 'Execute The Following Command In Management Cluster' 86`" bold
+print_stdout_withcolor red `repeatedCharNTimes "#" 86`
+echo
+sleep 6
+
+clear
+print_stdout_withcolor red `repeatedCharNTimes "-" 86`
+figlet -t -f slant management cluster
+print_stdout_withcolor red `repeatedCharNTimes "-" 86`
+echo
+print_stdout_withcolor green `repeatedCharNTimes "-" 86`
+print_stdout_withcolor green "`formatStdOutBeginEndString 'BEGIN' 86`"
+echo 
+print_stdout_withcolor green `repeatedCharNTimes "#" 86`
+print_stdout_withcolor green "`formatStdOutString 'check if the configmap created and generated' 86`"
+print_stdout_withcolor green "`formatStdOutString 'in both clusters and clusters-psap-qe-hcluster01' 86`"
+print_stdout_withcolor green `repeatedCharNTimes "#" 86`
 
 display_and_run "oc get configmap -n clusters| grep tuned-hugepages"
 display_and_run "oc get configmap -n clusters-psap-qe-hcluster01 | grep tuned"
+echo
+print_stdout_withcolor green "`formatStdOutBeginEndString 'END' 86`"
+print_stdout_withcolor green `repeatedCharNTimes "-" 86`
+echo
+sleep 6
 
 
-echo 
-print_stdout_withcolor yellow "`formatStdOutBeginEndString 'END' 86`"
-print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
 clear
 echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
@@ -268,7 +312,7 @@ echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 figlet -t -f slant management cluster
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
-
+display_and_run "oc get nodes"
 display_and_run "oc patch -n clusters nodepool hugepages-nodepool --type merge -p '{\"spec\":{\"tuningConfig\":[]}}'"
 
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
@@ -282,7 +326,7 @@ do
     sleep 10
     NODEPOOL_READY_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'| tr [T,F] [t,f]`
     NODEPOOL_UPDATE_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="UpdatingConfig")].status}'| tr [T,F] [t,f]`
-    show_prompt_text red "NODEPOOL_READY_STATUS is $NODEPOOL_READY_STATUS and NODEPOOL_UPDATE_STATUS is '$NODEPOOL_UPDATE_STATUS'"
+    echo "nodepool reday status is $NODEPOOL_READY_STATUS and nodepool update status is '$NODEPOOL_UPDATE_STATUS'"
     #Or NODEPOOL_UPDATE_STATUS=
     #NODEPOOL_READY_STATUS=true
     #if [[ (! $NODEPOOL_UPDATE_STATUS)  && $NODEPOOL_READY_STATUS ]];then
@@ -297,7 +341,7 @@ clear
 echo
 echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
-figlet -t -f slant Rollback Verify
+figlet -t -f slant Rollback Verification
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 echo
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
@@ -306,6 +350,8 @@ print_stdout_withcolor red "`formatStdOutString 'It should remove from /etc/cmdl
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 sleep 6
+
+
 clear
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 figlet -t -f slant highlight
@@ -317,6 +363,11 @@ print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 sleep 6
 
+clear
+echo
+print_stdout_withcolor red `repeatedCharNTimes "-" 86`
+figlet -t -f slant management cluster
+print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 echo
 print_stdout_withcolor green `repeatedCharNTimes "-" 86`
 print_stdout_withcolor green "`formatStdOutBeginEndString 'BEGIN' 86`"

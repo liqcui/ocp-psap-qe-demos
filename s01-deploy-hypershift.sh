@@ -168,7 +168,7 @@ figlet -t -f slant Highlight
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 echo
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
-print_stdout_withcolor red "`formatStdOutString 'Execute the following in managment cluster' 86`"
+print_stdout_withcolor red "`formatStdOutString 'Execute the following command in managment cluster' 86`"
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 sleep 8
@@ -224,12 +224,12 @@ fi
 
 NODEPOOL_STATUS=false
 HOSTEDCLUSTER_STATUS=false
-sleep 20 
+sleep 5 
 while true
 do
     HOSTEDCLUSTER_STATUS=`oc get hostedcluster -n clusters -ojsonpath={..status.version.history[*].state} | tr [A-Z] [a-z]`
     NODEPOOL_STATUS=`oc get nodepool psap-qe-hcluster01-us-east-2a -n clusters -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'| tr [T,F] [t,f]`
-    echo  "HOSTEDCLUSTER_STATUS is $HOSTEDCLUSTER_STATUS NODEPOOL_STATUS is $NODEPOOL_STATUS"
+    echo  "The status of hosted cluster is $HOSTEDCLUSTER_STATUS and The ready status of nodepool is $NODEPOOL_STATUS"
     if [[ $NODEPOOL_STATUS == "true" && $HOSTEDCLUSTER_STATUS == "completed" ]];then
         print_stdout_withcolor green `repeatedCharNTimes "-" 86`
         show_prompt_text green "The Hosted Cluster and NodePool is ready"
@@ -238,14 +238,21 @@ do
     fi 
         sleep 15
 done
+echo
 print_stdout_withcolor green "`formatStdOutBeginEndString 'END' 86`"
 print_stdout_withcolor green `repeatedCharNTimes "-" 86`
+sleep 8
 
 clear
 echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 figlet -t -f slant Verify ControlPlane
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
+echo
+print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
+print_stdout_withcolor blue "`formatStdOutString 'Check If Hosted Cluster Control Plane is Ready' 86`"
+print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
+echo
 sleep 8
 
 clear
@@ -262,23 +269,34 @@ print_stdout_withcolor blue "`formatStdOutString 'Check the POD status for hoste
 print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
 echo
 display_and_run "oc get pods -n clusters-psap-qe-hcluster01"
+echo
+print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
+print_stdout_withcolor blue "`formatStdOutBeginEndString 'END' 86`"
+sleep 8
 
 clear
 echo 
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 figlet -t -f slant Management Cluster
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
-echo
+echo 
 print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
-print_stdout_withcolor blue "`formatStdOutString 'Check If Hosted Cluster Control Plane is Ready' 86`"
+print_stdout_withcolor blue "`formatStdOutString 'Check If Hosted Cluster Is Ready' 86`"
 print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
 
+echo
+print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
+print_stdout_withcolor blue "`formatStdOutBeginEndString 'BEGIN' 86`"
+display_and_run "oc get hostedcluster -n clusters"
+
+echo
+print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
+print_stdout_withcolor blue "`formatStdOutString 'Check If The Default NodePool is Ready' 86`"
+print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
 display_and_run "oc get nodepool -n clusters"
-
 echo
-print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
-print_stdout_withcolor blue "`formatStdOutString 'Check If Hosted Cluster NodePool is Ready' 86`"
-print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
+print_stdout_withcolor blue "`formatStdOutBeginEndString 'END' 86`"
+print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
 sleep 8
 
 clear
@@ -288,8 +306,13 @@ figlet -t -f slant Management Cluster
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
 echo
 print_stdout_withcolor yellow `repeatedCharNTimes "#" 86`
-print_stdout_withcolor yellow "`formatStdOutString 'Check Hosted Cluster Node and Namespace' 86`" bold
+print_stdout_withcolor yellow "`formatStdOutString 'Check Worker Node and NTO pods in openshift-cluster-node-tuning-operator' 86`" bold
+print_stdout_withcolor yellow "`formatStdOutString 'Those worker nodes and pod belong to hosted cluster,' 86`" bold
+print_stdout_withcolor yellow "`formatStdOutString 'rather than management cluster' 86`" bold
 print_stdout_withcolor yellow `repeatedCharNTimes "#" 86`
+echo
+print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
+print_stdout_withcolor blue "`formatStdOutBeginEndString 'BEGIN' 86`"
 echo
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
 show_prompt_text yellow "Switch to Hosted/Guest Cluster"
@@ -306,11 +329,17 @@ display_and_run "oc get nodes"
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
 show_prompt_text green "No master node in hosted cluster, only worker nodes"
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
+
 display_and_run "oc get ns"
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
-show_prompt_text yellow "Those namespace is in hosted cluster, not management cluster namespace"
+show_prompt_text yellow "Those namespace is in hosted cluster, rather than management cluster namespace"
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
 echo 
 
+display_and_run "oc get pods -n openshift-cluster-node-tuning-operator"
+print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
+show_prompt_text yellow "The NTO pods is in hosted cluster, rather than management cluster namespace"
+print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
+echo 
 print_stdout_withcolor yellow "`formatStdOutBeginEndString 'END' 86`"
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
