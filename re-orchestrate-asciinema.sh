@@ -46,10 +46,11 @@ done
 wc -l /tmp/timeSec.lst
 wc -l /tmp/newTimeSec.lst
 
+#Still need to improve
 #Replace from second line
-i=2
-for newTimeIndex in `cat /tmp/newTimeSec.lst`
-do
-   sed -i "${i}{s;^\[.*\.;\[${newTimeIndex}.;}" $MODIFIED_FILE
-   i=$(( $i+1 ))
-done
+#i=2
+#for newTimeIndex in `cat /tmp/newTimeSec.lst`
+#do
+#   sed -i "${i}{s;^\[.*\.;\[${newTimeIndex}.;}" $MODIFIED_FILE
+#   i=$(( $i+1 ))
+#done
