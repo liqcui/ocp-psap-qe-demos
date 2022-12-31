@@ -83,7 +83,7 @@ NODEPOOL_READY_STATUS=false
 while true
 do
     NODEPOOL_READY_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'| tr [T,F] [t,f]`
-    echo  "The reday status of nodepool is $NODEPOOL_READY_STATUS"
+    echo  "The ready status of nodepool is $NODEPOOL_READY_STATUS"
     if [[ $NODEPOOL_READY_STATUS == "true" ]];then
        show_prompt_text green "The custom nodepool hugepages-nodepool is ready"
        break
@@ -164,7 +164,7 @@ do
     sleep 10
     NODEPOOL_READY_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'| tr [T,F] [t,f]`
     NODEPOOL_UPDATE_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="UpdatingConfig")].status}'| tr [T,F] [t,f]`
-    echo "The reday status of nodepool is $NODEPOOL_READY_STATUS and the update status of nodepool is '$NODEPOOL_UPDATE_STATUS'"
+    echo "The ready status of nodepool is $NODEPOOL_READY_STATUS and the update status of nodepool is '$NODEPOOL_UPDATE_STATUS'"
     if [[ $NODEPOOL_UPDATE_STATUS != "true" && $NODEPOOL_READY_STATUS == "true" ]];then
        show_prompt_text green "The custom nodepool hugepages-nodepool is ready"
        break
@@ -326,7 +326,7 @@ do
     sleep 10
     NODEPOOL_READY_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'| tr [T,F] [t,f]`
     NODEPOOL_UPDATE_STATUS=`oc get nodepool hugepages-nodepool -n clusters -ojsonpath='{.status.conditions[?(@.type=="UpdatingConfig")].status}'| tr [T,F] [t,f]`
-    echo "nodepool reday status is $NODEPOOL_READY_STATUS and nodepool update status is '$NODEPOOL_UPDATE_STATUS'"
+    echo "nodepool ready status is $NODEPOOL_READY_STATUS and nodepool update status is '$NODEPOOL_UPDATE_STATUS'"
     #Or NODEPOOL_UPDATE_STATUS=
     #NODEPOOL_READY_STATUS=true
     #if [[ (! $NODEPOOL_UPDATE_STATUS)  && $NODEPOOL_READY_STATUS ]];then
