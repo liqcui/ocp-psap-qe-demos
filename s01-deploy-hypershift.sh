@@ -212,7 +212,7 @@ else
 fi
 
 if [ $RC -eq 1 ];then
-    display_and_run "hypershift create cluster aws --name $CLUSTER_NAME --node-pool-replicas=2 --base-domain $BASE_DOMAIN --pull-secret $PULL_SECRET --aws-creds $AWS_CREDS --region $REGION --generate-ssh --release-image=quay.io/openshift-release-dev/ocp-release:4.12.0-rc.6-x86_64"
+    display_and_run "hypershift create cluster aws --name $CLUSTER_NAME --node-pool-replicas=2 --base-domain $BASE_DOMAIN --pull-secret $PULL_SECRET --aws-creds $AWS_CREDS --region $REGION --generate-ssh --release-image=quay.io/openshift-release-dev/ocp-release:4.12.0-x86_64"
     print_stdout_withcolor green `repeatedCharNTimes "-" 86`
     show_prompt_text green "It will take 5-10 minutes to complete, waiting for hosted cluster and nodepool be ready"
     print_stdout_withcolor green `repeatedCharNTimes "-" 86`
