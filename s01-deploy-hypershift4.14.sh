@@ -137,7 +137,8 @@ if [ $? -eq 0 ];then
      show_prompt_text blue "The hypershift operator has been successfully deployed ..."
      print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
 else
-     display_and_run "hypershift install --hypershift-image=quay.io/hypershift/hypershift-operator:4.13 --oidc-storage-provider-s3-bucket-name $BUCKET_NAME --oidc-storage-provider-s3-credentials $AWS_CREDS --oidc-storage-provider-s3-region $REGION"
+     display_and_run "hypershift install --hypershift-image=quay.io/openshift-psap-qe/hypershift-operator:nto-poc --oidc-storage-provider-s3-bucket-name $BUCKET_NAME --oidc-storage-provider-s3-credentials $AWS_CREDS --oidc-storage-provider-s3-region $REGION"
+     #display_and_run "hypershift install --hypershift-image=quay.io/openshift-psap-qe/hypershift-operator:nto-poc --oidc-storage-provider-s3-bucket-name $BUCKET_NAME --oidc-storage-provider-s3-credentials $AWS_CREDS --oidc-storage-provider-s3-region $REGION"
 fi
 
 replicas=`/usr/bin/oc get deployment operator -n hypershift -ojsonpath\="{.status.replicas}"`
@@ -229,7 +230,7 @@ else
 fi
 
 if [ $RC -eq 1 ];then
-    display_and_run "hypershift create cluster aws --name $CLUSTER_NAME --node-pool-replicas=2 --base-domain $BASE_DOMAIN --pull-secret $PULL_SECRET --aws-creds $AWS_CREDS --region $REGION --generate-ssh --release-image=registry.ci.openshift.org/ocp/release:4.13.0-0.nightly-2023-05-23-145816"
+    display_and_run "hypershift create cluster aws --name $CLUSTER_NAME --node-pool-replicas=2 --base-domain $BASE_DOMAIN --pull-secret $PULL_SECRET --aws-creds $AWS_CREDS --region $REGION --generate-ssh --release-image=registry.ci.openshift.org/ocp/release:4.14.0-0.nightly-2023-05-16-085836"
     print_stdout_withcolor green `repeatedCharNTimes "-" 86`
     show_prompt_text green "It will take 5-10 minutes to complete, waiting for hosted cluster and nodepool be ready"
     print_stdout_withcolor green `repeatedCharNTimes "-" 86`

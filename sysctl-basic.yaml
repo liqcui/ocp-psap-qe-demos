@@ -1,0 +1,19 @@
+apiVersion: tuned.openshift.io/v1
+kind: Tuned
+metadata:
+ name: tuning-allnodes-maxpid
+ namespace: openshift-cluster-node-tuning-operator
+spec:
+ profile:
+ - data: |
+     [main]
+     summary=Custom OpenShift maxmap profile
+     include=openshift-node
+     [sysctl]
+     kernel.pid_max = 868686
+   name: tuning-allnodes-maxpid
+ recommend:
+ - priority: 20
+   profile: tuning-allnodes-maxpid
+   operand:
+     debug: false
