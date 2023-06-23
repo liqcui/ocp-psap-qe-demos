@@ -9,4 +9,4 @@ Live Demo for s02-demo-sysctl-on-hypershift.sh
 
 Live Demo for s03-demo-kernelboot-on-hypershift.sh
 
-https://asciinema.org/a/592839
+[![asciicast](https://asciinema.org/a/592839.svg)](https://asciinema.org/a/592839)
