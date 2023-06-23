@@ -12,7 +12,7 @@ print_stdout_withcolor red "`formatStdOutString 'The Installation of Hypershift 
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 echo
-sleep 10
+sleep 8
 
 clear
 echo
@@ -24,7 +24,7 @@ echo
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 print_stdout_withcolor red "`formatStdOutString 'Create S3 Bucket for Hypershift' 86`" bold
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
-sleep 10
+sleep 8
 clear
 echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
@@ -36,7 +36,7 @@ print_stdout_withcolor red "`formatStdOutString 'Execute The Following Command i
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 echo
-sleep 10
+sleep 8
 
 
 clear 
@@ -82,7 +82,7 @@ fi
 
 print_stdout_withcolor yellow "`formatStdOutBeginEndString 'END' 86`"
 print_stdout_withcolor yellow `repeatedCharNTimes "-" 86`
-sleep 10
+sleep 8
 
 ######Start Hypershift Operator Deployment
 clear
@@ -95,7 +95,7 @@ echo
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 print_stdout_withcolor red "`formatStdOutString 'Deploy hypershift Operator in <hypershift> namespace' 86`" bold
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
-sleep 10
+sleep 8
 clear
 echo
 print_stdout_withcolor red `repeatedCharNTimes "-" 86`
@@ -107,7 +107,7 @@ print_stdout_withcolor red "`formatStdOutString 'Execute The Following Command i
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
 echo
-sleep 10
+sleep 8
 
 clear 
 echo
@@ -144,7 +144,7 @@ replicas=`/usr/bin/oc get deployment operator -n hypershift -ojsonpath\="{.statu
 AvailableStatus=false
 while ! `oc get deployment operator -n hypershift -ojsonpath='{.status.conditions[?(@.type=="Available")].status}'| tr [T,F] [t,f]`
 do
-     sleep 10
+     sleep 8
      show_prompt_text blue "The hypershift operator isn't ready, continue to check ... "
 done
 
@@ -160,7 +160,7 @@ display_and_run "oc get pods -n hypershift"
 
 print_stdout_withcolor blue "`formatStdOutBeginEndString 'END' 86`"
 print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
-sleep 10
+sleep 8
 
 
 clear
@@ -174,7 +174,7 @@ print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 print_stdout_withcolor red "`formatStdOutString 'Hosted Cluster Control Plane Deployment' 86`"
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
-sleep 10
+sleep 8
 
 
 
@@ -188,7 +188,7 @@ print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 print_stdout_withcolor red "`formatStdOutString 'Execute the following command in managment cluster' 86`"
 print_stdout_withcolor red `repeatedCharNTimes "#" 86`
 echo
-sleep 10
+sleep 8
 
 
 
@@ -229,7 +229,7 @@ else
 fi
 
 if [ $RC -eq 1 ];then
-    display_and_run "hypershift create cluster aws --name $CLUSTER_NAME --node-pool-replicas=2 --base-domain $BASE_DOMAIN --pull-secret $PULL_SECRET --aws-creds $AWS_CREDS --region $REGION --generate-ssh --release-image=registry.ci.openshift.org/ocp/release:4.13.0-0.nightly-2023-05-23-145816"
+    display_and_run "hypershift create cluster aws --name $CLUSTER_NAME --node-pool-replicas=2 --base-domain $BASE_DOMAIN --pull-secret $PULL_SECRET --aws-creds $AWS_CREDS --region $REGION --generate-ssh --release-image=quay.io/openshift-release-dev/ocp-release:4.13.4-x86_64"
     print_stdout_withcolor green `repeatedCharNTimes "-" 86`
     show_prompt_text green "It will take 5-10 minutes to complete, waiting for hosted cluster and nodepool be ready"
     print_stdout_withcolor green `repeatedCharNTimes "-" 86`
@@ -258,7 +258,7 @@ done
 echo
 print_stdout_withcolor green "`formatStdOutBeginEndString 'END' 86`"
 print_stdout_withcolor green `repeatedCharNTimes "-" 86`
-sleep 10
+sleep 8
 
 clear
 echo
@@ -270,7 +270,7 @@ print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
 print_stdout_withcolor blue "`formatStdOutString 'Check If Hosted Cluster Control Plane is Ready' 86`"
 print_stdout_withcolor blue `repeatedCharNTimes "#" 86`
 echo
-sleep 10
+sleep 8
 
 clear
 echo
@@ -289,7 +289,7 @@ display_and_run "oc get pods -n clusters-psap-qe-hcluster01"
 echo
 print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
 print_stdout_withcolor blue "`formatStdOutBeginEndString 'END' 86`"
-sleep 10
+sleep 8
 
 clear
 echo 
@@ -314,7 +314,7 @@ display_and_run "oc get nodepool -n clusters"
 echo
 print_stdout_withcolor blue "`formatStdOutBeginEndString 'END' 86`"
 print_stdout_withcolor blue `repeatedCharNTimes "-" 86`
-sleep 10
+sleep 8
 
 clear
 echo 
